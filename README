@@ -1,0 +1,49 @@
+DESCRIPTION
+
+This patch enables the NGINX SSL module to respond with a TACK TLS Extension. More info on TACK: http://tack.io
+
+
+DIRECTIVES
+
+    ssl_tack
+        on - Enable TLS extension
+        off - Disable TLS extension
+
+
+    ssl_tack_file
+        Sets TACK file path, if not set - extension will not be used.
+
+
+    ssl_tack_breaksigs_file
+        Sets TACK breaksigs file path, default is none.
+
+
+    ssl_tack_pin_activation
+        on - Enable TACK pin activation
+        off - Disable TACK pin activation
+
+
+EXAMPLE CONFIGURATION
+
+    server {
+        listen       443;
+        server_name  localhost;
+
+        ssl                  on;
+        ssl_certificate      ssl/testhost.crt;
+        ssl_certificate_key  ssl/testhost.key;
+
+        ssl_session_timeout  5m;
+
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers   on;
+
+        ssl_tack on;
+        ssl_tack_file ssl/tack.sig;
+        ssl_tack_pin_activation off;
+
+        location / {
+            root   html;
+        }
+    }
