@@ -1,7 +1,7 @@
 DESCRIPTION
 ===========
 
-This patch enables the NGINX SSL module to respond with a [TACK](http://tack.io.) TLS Extension.
+This patch enables the NGINX SSL module to respond with a [TACK](http://tack.io/) TLS Extension.
 
 
 Directives
