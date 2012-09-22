@@ -58,16 +58,16 @@ off - Disable TACK pin activation
 Installation
 ============
 
-    Grab the nginx source code from [nginx.org](<http://nginx.org/>), this patch was made for v1.3.6.
-    Patch and compile it with [openssl_tack](https://github.com/tack/openssl_tack).
+Grab the nginx source code from [nginx.org](<http://nginx.org/>), this patch was made for v1.3.6.
+Patch and compile it with [openssl_tack](https://github.com/tack/openssl_tack).
 
-        wget 'http://nginx.org/download/nginx-1.3.6.tar.gz'
-        tar -xzvf nginx-1.3.6.tar.gz
-        patch -p0 < ngx_http_ssl_module.patch
+    wget 'http://nginx.org/download/nginx-1.3.6.tar.gz'
+    tar -xzvf nginx-1.3.6.tar.gz
+    patch -p0 < ngx_http_ssl_module.patch
 
-        ./configure --with-debug --with-openssl=/path/to/openssl_tack --with-http_ssl_module
-        make
-        make install
+    ./configure --with-debug --with-openssl=/path/to/openssl_tack --with-http_ssl_module
+     make
+     make install
 
 
 Example configuration
