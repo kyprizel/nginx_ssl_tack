@@ -25,12 +25,12 @@ DIRECTIVES
 
 INSTALLATION
 
-    Grab the nginx source code from nginx.org (<http://nginx.org/>), this patch was made for v1.3.6.
+    Grab the nginx source code from nginx.org (<http://nginx.org/>).
     Patch and compile it with openssl_tack.
 
-        wget 'http://nginx.org/download/nginx-1.3.6.tar.gz'
-        tar -xzvf nginx-1.3.6.tar.gz
-        patch -p0 < ngx_http_ssl_module.patch
+        wget 'http://nginx.org/download/nginx-VERSION.tar.gz'
+        tar -xzvf nginx-VERSION.tar.gz
+        patch -p0 < ngx_http_ssl_module-VERSION.patch
 
         ./configure --with-debug --with-openssl=/path/to/openssl_tack --with-http_ssl_module
         make

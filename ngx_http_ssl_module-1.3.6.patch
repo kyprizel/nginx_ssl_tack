@@ -88,7 +88,7 @@ diff -crB nginx-1.3.6/src/http/modules/ngx_http_ssl_module.c nginx-1.3.6-tack/sr
 +                 return NGX_CONF_ERROR;
 +             }
 +         }
-+         if (SSL_CTX_use_tack_files(conf->ssl.ctx,
++         if (SSL_CTX_use_tack_file(conf->ssl.ctx,
 +                                     (const char *) conf->tack_file.data,
 +                                     (conf->tack_breaksigs_file.len ? (const char *) conf->tack_breaksigs_file.data : NULL),
 +                                     conf->tack_pin_activation)
