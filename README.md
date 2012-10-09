@@ -31,17 +31,6 @@ ssl_tack_file
 Sets TACK file path.
 
 
-ssl_tack_breaksigs_file
------------------------
-**syntax:** *ssl_tack_breaksigs_file &lt;string&gt;*
-
-**default:** *none*
-
-**context:** *server*
-
-Sets TACK breaksigs file path.
-
-
 ssl_tack_pin_activation
 -----------------------
 **syntax:** *ssl_tack_pin_activation (on|off);*

@@ -14,10 +14,6 @@ DIRECTIVES
         Sets TACK file path, if not set - extension will not be used.
 
 
-    ssl_tack_breaksigs_file
-        Sets TACK breaksigs file path, default is none.
-
-
     ssl_tack_pin_activation
         on - Enable TACK pin activation
         off - Disable TACK pin activation
