@@ -14,9 +14,8 @@ DIRECTIVES
         Sets TACK file path, if not set - extension will not be used.
 
 
-    ssl_tack_pin_activation
-        on - Enable TACK pin activation
-        off - Disable TACK pin activation
+    ssl_tack_activation_flags
+        0,1,2,3 - http://tack.io/draft.html#anchor9
 
 
 INSTALLATION
@@ -51,7 +50,7 @@ EXAMPLE CONFIGURATION
 
         ssl_tack on;
         ssl_tack_file ssl/tack.sig;
-        ssl_tack_pin_activation off;
+        ssl_tack_activation_flags 1;
 
         location / {
             root   html;

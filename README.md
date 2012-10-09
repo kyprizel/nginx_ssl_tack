@@ -31,17 +31,15 @@ ssl_tack_file
 Sets TACK file path.
 
 
-ssl_tack_pin_activation
+ssl_tack_activation_flags
 -----------------------
-**syntax:** *ssl_tack_pin_activation (on|off);*
+**syntax:** *ssl_tack_pin_activation (0|1|2|3);*
 
-**default:** *off*
+**default:** *0*
 
 **context:** *server*
 
-on - Enable TACK pin activation
-
-off - Disable TACK pin activation
+http://tack.io/draft.html#anchor9
 
 
 Installation
@@ -78,7 +76,7 @@ Example configuration
 
         ssl_tack on;
         ssl_tack_file ssl/tack.sig;
-        ssl_tack_pin_activation off;
+        ssl_tack_activation_flags 1;
 
         location / {
             root   html;

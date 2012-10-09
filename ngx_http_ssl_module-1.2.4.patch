@@ -1,7 +1,26 @@
 diff -Naur nginx-1.2.4/src/http/modules/ngx_http_ssl_module.c nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.c
 --- nginx-1.2.4/src/http/modules/ngx_http_ssl_module.c	2012-01-18 19:07:43.000000000 +0400
-+++ nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.c	2012-10-09 18:14:37.458463105 +0400
-@@ -152,6 +152,31 @@
++++ nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.c	2012-10-09 23:12:03.705875235 +0400
+@@ -51,6 +51,18 @@
+     { ngx_null_string, 0 }
+ };
+ 
++#ifndef OPENSSL_NO_TACK
++
++static ngx_conf_enum_t  ngx_http_ssl_tack_activation_flags[] = {
++    { ngx_string("0"), 0 },
++    { ngx_string("1"), 1 },
++    { ngx_string("2"), 2 },
++    { ngx_string("3"), 3 },
++    { ngx_null_string, 0 }
++};
++
++#endif
++
+ 
+ static ngx_command_t  ngx_http_ssl_commands[] = {
+ 
+@@ -152,6 +164,31 @@
        offsetof(ngx_http_ssl_srv_conf_t, crl),
        NULL },
  
@@ -21,43 +40,43 @@ diff -Naur nginx-1.2.4/src/http/modules/ngx_http_ssl_module.c nginx-1.2.4-tack/s
 +      offsetof(ngx_http_ssl_srv_conf_t, tack_file),
 +      NULL },
 +
-+    { ngx_string("ssl_tack_pin_activation"),
++    { ngx_string("ssl_tack_activation_flags"),
 +      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_CONF_FLAG,
-+      ngx_conf_set_flag_slot,
++      ngx_conf_set_enum_slot,
 +      NGX_HTTP_SRV_CONF_OFFSET,
-+      offsetof(ngx_http_ssl_srv_conf_t, tack_pin_activation),
-+      NULL },
++      offsetof(ngx_http_ssl_srv_conf_t, tack_activation_flags),
++      ngx_http_ssl_tack_activation_flags },
 +
 +#endif
 +
        ngx_null_command
  };
  
-@@ -337,6 +362,11 @@
+@@ -337,6 +374,11 @@
      sscf->builtin_session_cache = NGX_CONF_UNSET;
      sscf->session_timeout = NGX_CONF_UNSET;
  
 +#ifndef OPENSSL_NO_TACK
 +    sscf->tack = NGX_CONF_UNSET;
-+    sscf->tack_pin_activation = NGX_CONF_UNSET;
++    sscf->tack_activation_flags = NGX_CONF_UNSET;
 +#endif
 +
      return sscf;
  }
  
-@@ -387,6 +417,11 @@
+@@ -387,6 +429,11 @@
  
      ngx_conf_merge_str_value(conf->ciphers, prev->ciphers, NGX_DEFAULT_CIPHERS);
  
 +#ifndef OPENSSL_NO_TACK
 +    ngx_conf_merge_value(conf->tack, prev->tack, 0);
 +    ngx_conf_merge_str_value(conf->tack_file, prev->tack_file, "");
-+    ngx_conf_merge_value(conf->tack_pin_activation, prev->tack_pin_activation, 0);
++    ngx_conf_merge_uint_value(conf->tack_activation_flags, prev->tack_activation_flags, 0);
 +#endif
  
      conf->ssl.log = cf->log;
  
-@@ -515,6 +550,26 @@
+@@ -515,6 +562,26 @@
          return NGX_CONF_ERROR;
      }
  
@@ -69,7 +88,7 @@ diff -Naur nginx-1.2.4/src/http/modules/ngx_http_ssl_module.c nginx-1.2.4-tack/s
 +        }
 +        if (SSL_CTX_use_tack_file(conf->ssl.ctx,
 +                                    (const char *) conf->tack_file.data,
-+                                    conf->tack_pin_activation)
++                                    conf->tack_activation_flags)
 +            == 0)
 +        {
 +            ngx_ssl_error(NGX_LOG_EMERG, cf->log, 0,
@@ -86,18 +105,17 @@ diff -Naur nginx-1.2.4/src/http/modules/ngx_http_ssl_module.c nginx-1.2.4-tack/s
  
 diff -Naur nginx-1.2.4/src/http/modules/ngx_http_ssl_module.h nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.h
 --- nginx-1.2.4/src/http/modules/ngx_http_ssl_module.h	2012-01-18 19:07:43.000000000 +0400
-+++ nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.h	2012-10-09 18:14:58.410199578 +0400
-@@ -43,6 +43,13 @@
++++ nginx-1.2.4-tack/src/http/modules/ngx_http_ssl_module.h	2012-10-09 23:09:59.927431771 +0400
+@@ -41,6 +41,12 @@
  
-     u_char                         *file;
-     ngx_uint_t                      line;
-+
+     ngx_shm_zone_t                 *shm_zone;
+ 
 +#ifndef OPENSSL_NO_TACK
 +    ngx_flag_t                      tack;
 +    ngx_str_t                       tack_file;
-+    ngx_flag_t                      tack_pin_activation;
++    ngx_uint_t                      tack_activation_flags;
 +#endif
 +
+     u_char                         *file;
+     ngx_uint_t                      line;
  } ngx_http_ssl_srv_conf_t;
- 
- 
