@@ -68,7 +68,7 @@ Example configuration
         ssl_certificate      ssl/testhost.crt;
         ssl_certificate_key  ssl/testhost.key;
 
-        ssl_protocols  SSLv3 TLSv1 TLSv1.1 TLSv1.2
+        ssl_protocols  SSLv3 TLSv1 TLSv1.1 TLSv1.2;
         
         ssl_ciphers  HIGH:!aNULL:!MD5;
         ssl_prefer_server_ciphers   on;
